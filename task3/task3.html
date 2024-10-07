@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Music Player</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1f1c2c, #928DAB);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .music-player {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+            width: 90%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .track-info {
+            margin: 20px 0;
+        }
+
+        #track-title {
+            font-size: 1.5em;
+            margin: 5px 0;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        #track-artist {
+            font-size: 1.2em;
+            color: #ddd;
+        }
+
+        .controls {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 1.5em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 2em;
+            }
+            button {
+                font-size: 1.2em;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="music-player">
+        <h1>Music Player</h1>
+        <audio id="audio" src="song1.mp3" preload="metadata"></audio>
+        <div class="track-info">
+            <h2 id="track-title">Track Title</h2>
+            <p id="track-artist">Track Artist</p>
+        </div>
+        <div class="controls">
+            <button id="prev" onclick="prevTrack()">&#9664;&#9664;</button>
+            <button id="play" onclick="playPauseTrack()">&#9658;</button>
+            <button id="next" onclick="nextTrack()">&#9654;&#9654;</button>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const playButton = document.getElementById('play');
+        const trackTitle = document.getElementById('track-title');
+        const trackArtist = document.getElementById('track-artist');
+
+        const tracks = [
+            {
+                title: "G.O.A.T.",
+                artist: "Diljit Dosanjh",
+                src: "song1.mp3" // Replace with your actual audio file
+            },
+            {
+                title: "Admiring You",
+                artist: "Karan Aujla",
+                src: "song2.mp3" // Replace with your actual audio file
+            },
+            {
+                title: "Case",
+                artist: "Diljit Dosanjh",
+                src: "song3.mp3" // Replace with your actual audio file
+            }
+        ];
+
+        let currentTrackIndex = 0;
+
+        // Load the current track
+        function loadTrack(trackIndex) {
+            const track = tracks[trackIndex];
+            audio.src = track.src;
+            trackTitle.textContent = track.title;
+            trackArtist.textContent = track.artist;
+        }
+
+        // Play or pause the track
+        function playPauseTrack() {
+            if (audio.paused) {
+                audio.play();
+                playButton.innerHTML = '&#10074;&#10074;'; // Change to pause icon
+            } else {
+                audio.pause();
+                playButton.innerHTML = '&#9658;'; // Change to play icon
+            }
+        }
+
+        // Go to the next track
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(currentTrackIndex);
+            playPauseTrack();
+        }
+
+        // Go to the previous track
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+            loadTrack(currentTrackIndex);
+            playPauseTrack();
+        }
+
+        // Initial load
+        loadTrack(currentTrackIndex);
+    </script>
+</body>
+</html>
